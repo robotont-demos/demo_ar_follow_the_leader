@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>ar_follow_the_leader</name>
+  <name>demo_ar_follow_the_leader</name>
   <version>0.0.0</version>
   <description>The ar_follow_the_leader package</description>
 
