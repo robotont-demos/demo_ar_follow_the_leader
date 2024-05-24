@@ -19,7 +19,7 @@
     <remap from="camera_image"  to="camera/color/image_raw" />
     <remap from="camera_info"   to="camera/color/camera_info" />
   </node>
-  <node name="robotont_look_at_ar" pkg="ar_follow_the_leader" type="ar_follow_the_leader_controller.py" output="screen">
+  <node name="demo_ar_follow_the_leader" pkg="demo_ar_follow_the_leader" type="ar_follow_the_leader_controller.py" output="screen">
     <param name="marker_id" type="int" value="$(arg marker_id)" />
   </node>
 </launch>
