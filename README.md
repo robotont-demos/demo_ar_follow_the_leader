@@ -1,16 +1,38 @@
-# AR follow the leader
-This repository is a ROS package that contains follow the leader demo showing the capabilities of  the Robotont platform to detect and follow the AR Tag.
-
-## Prerequisites installed on the Robotont on-board computer
- * [ar_track_alvar](http://wiki.ros.org/ar_track_alvar)
+# demo_ar_follow_the_leader
+This demo makes Robotont follow and keep a certain distance from **ArUco** markers.
 
 ## Launching the demo
-**On Robotont on-board computer**, launch ar_follow_the_leader.launch (change 5 with the AR tag number you intend to follow)<br/>
+First, build the project and source the workspace:
 ```bash
-roslaunch ar_follow_the_leader ar_follow_the_leader.launch marker_id:=5
+colcon build
+source install/setup.bash
 ```
 
-**On PC**, launch ar_marker_display.launch to visualize the result<br/>
+The demo consists of two launch files:
+
+* `robot.launch.py` runs on the robot and performs marker detection and following.
+* `pc.launch.py` runs on the host computer and opens `rviz` to visualize the robot's camera feed.
+
+The robot launch file declares the following parameters, which can be overridden from the command line:
+
+| Parameter | Default | Description |
+|---|---|---|
+| `robot_id` | `0` | Identifier used to construct topic names. This node does not create new topics, only subscribes to existing ones |
+| `marker_id` | `0` | ID of the ArUco marker to detect |
+| `marker_size` | `0.0625` | Physical size of the marker in meters, used for distance estimation |
+
+Start the demo on the robot:
 ```bash
-roslaunch ar_follow_the_leader ar_marker_display.launch
+ros2 launch demo_ar_follow_the_leader robot.launch.py robot_id:=<id> marker_id:=<id> marker_size:=<length>
 ```
+
+On the host computer, start the visualization:
+```bash
+ros2 launch demo_ar_follow_the_leader pc.launch.py
+```
+The visualization requires the robot and the computer to be on the same network. The camera feed topic is preconfigured in `rviz`, but update `rtXX` in the topic name to match your robot's identifier.
+
+## Architecture
+The diagram below shows a simplified view of how the nodes and topics are connected.
+
+<img src="assets/architecture.png" alt="arch" width="800"/>

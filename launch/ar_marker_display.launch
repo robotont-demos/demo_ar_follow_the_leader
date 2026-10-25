@@ -1,4 +1,0 @@
-<?xml version="1.0" ?>
-<launch>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find demo_ar_follow_the_leader)/config/ar_follow.rviz" output="screen" />
-</launch>
