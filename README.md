@@ -1,10 +1,31 @@
 # demo_ar_follow_the_leader
 This demo makes Robotont follow and keep a certain distance from **ArUco** markers.
+The marker recongnition and control logic is done on the **robot**, while the camera feed is streamed to your **PC**.
+
+## Prerequisites
+### Installing dependencies on Robotont
+Let `rosdep` install necessary packages:
+```bash
+# move to demo repository
+cd ~/jazzy_demos
+
+# install dependancies
+rosdep install -from-paths src --ignore-src -r -y
+```
 
 ## Launching the demo
 First, build the project and source the workspace:
 ```bash
+# move to demo repository
+cd ~/jazzy_demos
+
+# source ROS2
+source /opt/ros/jazzy/setup.bash
+
+# build the workspace 
 colcon build
+
+# source built packages
 source install/setup.bash
 ```
 
@@ -21,13 +42,15 @@ The robot launch file declares the following parameters, which can be overridden
 | `marker_id` | `0` | ID of the ArUco marker to detect |
 | `marker_size` | `0.0625` | Physical size of the marker in meters, used for distance estimation |
 
-Start the demo on the robot:
+Start the demo on the **robot**:
 ```bash
+# launch the demo on Robotont
 ros2 launch demo_ar_follow_the_leader robot.launch.py robot_id:=<id> marker_id:=<id> marker_size:=<length>
 ```
 
-On the host computer, start the visualization:
+Start the visualization on **PC**:
 ```bash
+# launch the visualization on PC
 ros2 launch demo_ar_follow_the_leader pc.launch.py
 ```
 The visualization requires the robot and the computer to be on the same network. The camera feed topic is preconfigured in `rviz`, but update `rtXX` in the topic name to match your robot's identifier.
