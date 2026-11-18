@@ -32,11 +32,12 @@ def generate_launch_description():
 
 	# Nodes
 	ld.add_action(Node(
-		package='ros2_aruco',
-		executable='aruco_node',
+		package='aruco_opencv',
+		executable='aruco_tracker_autostart',
 		parameters=[{
-			'image_topic': robot_topic_create(LaunchConfiguration('robot_id'), 'camera/image_raw'),
-			'camera_info_topic': robot_topic_create(LaunchConfiguration('robot_id'), 'camera/camera_info')
+			'cam_base_topic': robot_topic_create(LaunchConfiguration('robot_id'), 'camera/image_raw'),
+			'marker_dict': '5X5_250',
+			'image_sub_qos.reliability': 1
 			}]
 	))
 

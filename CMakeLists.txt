@@ -11,6 +11,7 @@ find_package(ament_cmake_python REQUIRED)
 
 find_package(rclpy REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(aruco_opencv_msgs REQUIRED)
 
 # Python nodes
 ament_python_install_package(${PROJECT_NAME})
