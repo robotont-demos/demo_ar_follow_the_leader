@@ -21,6 +21,7 @@ def cam_to_ros(vec):
 	-vec[1],	# up/down:			-cam y
 	])
 
+
 def clip(val, min_val, max_val):
 	return min(max(val, min_val), max_val)
 
@@ -40,6 +41,14 @@ class ArSteeringNode(Node):
 
 		self.sub_poses = self.create_subscription(ArucoMarkers, '/aruco_markers', self.pose_callback, 1)
 		self.pub_twist = self.create_publisher(Twist, cmd_vel_topic, 1)
+
+		self.tim_timeout = self.create_timer(0.5, self.timer_callback)
+
+
+	def timer_callback(self):
+		cmd = Twist()
+		self.pub_twist.publish(cmd)
+
 
 	def pose_callback(self, msg):
 		cmd = Twist()
@@ -91,14 +100,20 @@ class ArSteeringNode(Node):
 				cmd.angular.z = clip(angle, -MAX_ANG_VEL, MAX_ANG_VEL)
 
 		self.pub_twist.publish(cmd)
+		self.tim_timeout.reset()
 
 
 def main(args=None):
 	rclpy.init(args=args)
 	node = ArSteeringNode()
-	rclpy.spin(node)
-	node.destroy_node()
-	rclpy.shutdown()
+	try:
+		rclpy.spin(node)
+	except KeyboardInterrupt:
+		pass
+	finally:
+		node.destroy_node()
+		if rclpy.ok():
+			rclpy.shutdown()
 
 
 if __name__ == '__main__':
